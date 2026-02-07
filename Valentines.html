@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine</title>
+
+<style>
+body{
+text-align:center;
+font-family: Arial, sans-serif;
+margin-top:60px;
+background: linear-gradient(#ffe6f0, #ffd6e8);
+overflow:hidden;
+position:relative;
+}
+
+.name{
+font-size:28px;
+color:#ff4d88;
+font-weight:bold;
+}
+
+.intro{
+font-size:20px;
+color:#ff6699;
+margin-bottom:5px;
+}
+
+h1{
+color:#ff3366;
+}
+
+button{
+padding:15px 30px;
+font-size:20px;
+margin:20px;
+cursor:pointer;
+border:none;
+border-radius:30px;
+}
+
+#yesBtn{
+background-color:#ff4d88;
+color:white;
+box-shadow:0 10px 20px rgba(255,77,136,0.4);
+}
+
+#noBtn{
+position:absolute;
+background-color:#cccccc;
+}
+
+#tease{
+color:#ff6699;
+font-size:18px;
+margin-top:10px;
+min-height:24px;
+}
+
+#result{
+color:#ff3366;
+margin-top:30px;
+padding:0 20px;
+}
+
+/* Teddy */
+.teddy{
+font-size:60px;
+animation: bounce 2s infinite;
+margin-bottom:10px;
+}
+
+@keyframes bounce{
+0%,100%{ transform:translateY(0); }
+50%{ transform:translateY(-15px); }
+}
+
+/* Floating hearts */
+.heart{
+position:absolute;
+font-size:20px;
+animation: floatUp 8s linear infinite;
+opacity:0.7;
+}
+
+@keyframes floatUp{
+0%{
+transform: translateY(100vh) scale(1);
+opacity:0;
+}
+10%{ opacity:0.8; }
+100%{
+transform: translateY(-10vh) scale(1.5);
+opacity:0;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Music -->
+<audio autoplay loop>
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<div class="teddy">🧸</div>
+
+<div class="name">Pinguu 💕</div>
+<div class="intro">I’ve been meaning to ask you something…</div>
+
+<h1>Will you be my Valentine? ❤️</h1>
+
+<button id="yesBtn">Yes 💖</button>
+<button id="noBtn">No 😅</button>
+
+<div id="tease"></div>
+<h2 id="result"></h2>
+
+<script>
+/* Floating hearts */
+for(let i = 0; i < 25; i++){
+const heart = document.createElement("div");
+heart.className = "heart";
+heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+heart.style.left = Math.random() * 100 + "vw";
+heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+heart.style.fontSize = (14 + Math.random() * 26) + "px";
+document.body.appendChild(heart);
+}
+
+/* No button chaos */
+const noBtn = document.getElementById("noBtn");
+const tease = document.getElementById("tease");
+
+const messages = [
+"Nice try 😏",
+"Absolutely not 😂",
+"The button said NO to your NO 💕",
+"Wrong answer, Pinguu 😌",
+"You’re adorable for trying ❤️",
+"That button is loyal 😤",
+"Denied 🚫",
+"Just press Yes already 😈"
+];
+
+function runAway(){
+const maxX = window.innerWidth - noBtn.offsetWidth;
+const maxY = window.innerHeight - noBtn.offsetHeight;
+
+noBtn.style.left = Math.random() * maxX + "px";
+noBtn.style.top = Math.random() * maxY + "px";
+
+tease.innerHTML = messages[Math.floor(Math.random() * messages.length)];
+}
+
+noBtn.addEventListener("mouseover", runAway);
+noBtn.addEventListener("mousedown", runAway);
+noBtn.addEventListener("touchstart", runAway);
+
+/* Heart explosion */
+function explodeHearts(){
+for(let i = 0; i < 40; i++){
+const heart = document.createElement("div");
+heart.innerHTML = "❤️";
+heart.style.position = "absolute";
+heart.style.left = "50%";
+heart.style.top = "50%";
+heart.style.fontSize = "24px";
+heart.style.transition = "all 1.5s ease-out";
+document.body.appendChild(heart);
+
+const angle = Math.random() * Math.PI * 2;
+const distance = 200 + Math.random() * 200;
+
+setTimeout(() => {
+heart.style.transform =
+`translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px) scale(0)`;
+heart.style.opacity = 0;
+}, 50);
+
+setTimeout(() => heart.remove(), 1600);
+}
+}
+
+/* Yes button */
+document.getElementById("yesBtn").onclick = function(){
+explodeHearts();
+tease.innerHTML = "";
+document.getElementById("result").innerHTML =
+"Pinguu, you were never a sudden moment — you became my calm slowly and quietly.<br><br>\
+In our endless texts and tiny moments together,<br>\
+you became my favourite part of every day.<br><br>\
+Thank you for choosing me — you just made me the happiest. ❤️";
+};
+</script>
+
+</body>
+</html>
